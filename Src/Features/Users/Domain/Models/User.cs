@@ -1,14 +1,14 @@
 namespace Users.Domain
 {
-    public sealed class User 
+    public sealed class User
     {
 
-        public UserId Id {get; private set;}
+        public UserId Id { get; private set; }
         public UserName UserName { get; private set; }
-        public string Password { get; private set; }
+        public HashedPassword Password { get; private set; }
         public Rango Rango { get; private set; }
         private User() { }
-        public User(UserId id, UserName userName, string password, Rango rango) 
+        public User(UserId id, UserName userName, HashedPassword password, Rango rango)
         {
             this.UserName = userName;
             this.Password = password;
