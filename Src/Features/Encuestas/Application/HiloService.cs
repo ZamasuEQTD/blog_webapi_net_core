@@ -1,5 +1,0 @@
-namespace Hilos.Application
-{
-
-    
-}

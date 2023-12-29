@@ -8,7 +8,7 @@ namespace Hilos.Domain
     public interface IHiloManager {
         public Task<Result<Hilo>> GetHiloById(HiloId id,User? usuario = null);
         public Task<Result<List<Hilo>>> GetPortadasDeHilos(GetHilosFilterDto dto);
-        public Task<Failure> CrearHilo(CrearHiloForm form);
+        public Task<Result<Hilo>> CrearHilo(CrearHiloForm form);
     }
 
     public class HiloManager : IHiloManager
@@ -20,7 +20,7 @@ namespace Hilos.Domain
             _hilosRepository = hilosRepository;
         }
 
-        public Task<Failure> CrearHilo(CrearHiloForm form)
+        public Task<Result<Hilo>> CrearHilo(CrearHiloForm form)
         {
             throw new NotImplementedException();
         }
@@ -31,8 +31,8 @@ namespace Hilos.Domain
         }
 
         public Task<Result<List<Hilo>>> GetPortadasDeHilos(GetHilosFilterDto dto)
-        {   
-            return _hilosRepository.GetPortadasDeHilos( dto);
+        {
+            throw new NotImplementedException();
         }
     }
 }

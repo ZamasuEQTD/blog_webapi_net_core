@@ -4,7 +4,7 @@ namespace Users.Domain
     {
         public string Value { get; private set; }
 
-        private HashedPassword(string value)
+        public HashedPassword(string value)
         {
             Value = value;
         }

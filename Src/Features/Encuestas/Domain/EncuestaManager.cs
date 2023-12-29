@@ -15,7 +15,7 @@ namespace Encuestas.Domain
         {
             _encuestaRepository = encuestaRepository;
         }
-        public async Task<Result<Encuesta>> CrearEncuesta(CrearEncuestaForm form)
+        public Task<Result<Encuesta>> CrearEncuesta(CrearEncuestaForm form)
         {
             EncuestaId encuestaId = EncuestaId.Nuevo();
             List<EncuestaOpcion> opcions = [];
@@ -24,8 +24,7 @@ namespace Encuestas.Domain
                 opcions.Add(new EncuestaOpcion(EncuestaOpcionId.Nuevo(),encuestaId,nombreDeOpcion,VotosDeEncuesta.Create(0).Value));
             }
             Encuesta nuevaEncuesta = new Encuesta(encuestaId,opcions);
-            await _encuestaRepository.Add(nuevaEncuesta);
-            return Result<Encuesta>.Success(nuevaEncuesta);
+            return Task.FromResult(Result<Encuesta>.Success(nuevaEncuesta));
         }
 
         public async  Task<Result<VotacionDeEncuesta>> VotarEnEncuesta(VotarEncuestaForm form)
