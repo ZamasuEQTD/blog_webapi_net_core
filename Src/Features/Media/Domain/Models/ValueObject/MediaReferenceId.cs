@@ -1,16 +1,17 @@
 using Shared.Common;
 
-namespace Media.Domain
+namespace Medias.Domain
 {
-    public record class MediaReferenceId:ID
+    public record class MediaReferenceId : ID
     {
-        public MediaReferenceId(Guid id):base(id)
+        public MediaReferenceId(Guid id) : base(id)
         {
-            
+
         }
 
-        public static MediaReferenceId Nuevo(){
-            return  new MediaReferenceId(Guid.NewGuid());
+        public static MediaReferenceId Nuevo()
+        {
+            return new MediaReferenceId(Guid.NewGuid());
         }
     }
 }

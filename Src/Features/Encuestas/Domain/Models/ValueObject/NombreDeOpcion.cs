@@ -4,9 +4,10 @@ namespace Encuestas.Domain
 {
     public record NombreDeOpcion
     {
- private const int MinLength = 10;
+        private const int MinLength = 10;
         private const int MaxLength = 50;
         public string Value { get; }
+        private NombreDeOpcion() { }
         private NombreDeOpcion(string nombreDeOpcion)
         {
             Value = nombreDeOpcion;
@@ -16,7 +17,7 @@ namespace Encuestas.Domain
         {
             if (nombreDeOpcion.Length == 0)
             {
-              Result<NombreDeOpcion>.Failure(EncuestaFailures.OpcionVacia);
+                Result<NombreDeOpcion>.Failure(EncuestaFailures.OpcionVacia);
             }
             if (!LargoValido(nombreDeOpcion))
             {

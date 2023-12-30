@@ -2,11 +2,12 @@ using Core.Result;
 using Shared.Archivos.Domain;
 using Shared.Hasher;
 
-namespace Media.Domain
+namespace Medias.Domain
 {
-    public interface IMediaManager {
-        public Task<Result<MediaReference>>CrearReferenciaHaciaArchivo(ArchivoFisico archivo);
-        public Task<Result<MediaReference>>CrearReferenciaHaciaArchivo(ArchivoLink link);
+    public interface IMediaManager
+    {
+        public Task<Result<MediaReference>> CrearReferenciaHaciaArchivo(ArchivoFisico archivo);
+        public Task<Result<MediaReference>> CrearReferenciaHaciaArchivo(ArchivoLink link);
     }
 
     class MediaManager : IMediaManager
@@ -19,12 +20,12 @@ namespace Media.Domain
         private readonly string _outputFolder;
 
         public MediaManager(
-            IMediaRepository  mediaRepository,
-            IArchivosHelper  archivosHelper,
-            IVistaPreviaHelper  vistaPreviaHelper,
-            IMiniaturaHelper  miniaturaHelper,
-            IHasherHelper  hasherHelper,
-            string  outputFolder
+            IMediaRepository mediaRepository,
+            IArchivosHelper archivosHelper,
+            IVistaPreviaHelper vistaPreviaHelper,
+            IMiniaturaHelper miniaturaHelper,
+            IHasherHelper hasherHelper,
+            string outputFolder
         )
         {
             _mediaRepository = mediaRepository;
@@ -37,28 +38,30 @@ namespace Media.Domain
         public async Task<Result<MediaReference>> CrearReferenciaHaciaArchivo(ArchivoFisico archivo)
         {
             var stream = await archivo.GetStream();
-            
+
             var hash = await _hasherHelper.HashStreamAsync(stream);
 
             var archivoExistente = await _mediaRepository.GetMediaByHash(hash);
-            
-            if(archivoExistente.IsSuccess) {
-                var referenciaNueva = new MediaReference(MediaReferenceId.Nuevo(),archivoExistente.Value.Id,archivoExistente.Value,archivo.EsSpoiler);
-                await _mediaRepository.CrearMediaReference(referenciaNueva);
+
+            if (archivoExistente.IsSuccess)
+            {
+                var referenciaNueva = new MediaReference(MediaReferenceId.Nuevo(), archivoExistente.Value.Id, archivoExistente.Value, archivo.EsSpoiler);
+                // await _mediaRepository.CrearMediaReference(referenciaNueva);
                 return Result<MediaReference>.Success(referenciaNueva);
-            
+
             }
-            var absolutePath= await _archivosHelper.GuardarArchivoStream(stream,_outputFolder,hash + archivo.Extension);
-            
-            if(archivo.SoportaVistaPrevia()) {
-                absolutePath =  await  _vistaPreviaHelper.GenerarVistaPreviaDesdeImagen(absolutePath);
+            var absolutePath = await _archivosHelper.GuardarArchivoStream(stream, _outputFolder, hash + archivo.Extension);
+
+            if (archivo.SoportaVistaPrevia())
+            {
+                absolutePath = await _vistaPreviaHelper.GenerarVistaPreviaDesdeImagen(absolutePath);
             }
 
-            await _miniaturaHelper.CrearMiniatura(absolutePath,hash);
-            
-            var archivoNuevo = new MediaReference(MediaReferenceId.Nuevo(),new Media(MediaId.Nuevo(),hash,hash + archivo.Extension),archivo.EsSpoiler);
-            
-            await _mediaRepository.CrearMediaReference(archivoNuevo);
+            await _miniaturaHelper.CrearMiniatura(absolutePath, hash);
+
+            var archivoNuevo = new MediaReference(MediaReferenceId.Nuevo(), new Media(MediaId.Nuevo(), hash, hash + archivo.Extension), archivo.EsSpoiler);
+
+            // await _mediaRepository.CrearMediaReference(archivoNuevo);
 
             return Result<MediaReference>.Success(archivoNuevo);
         }

@@ -1,14 +1,14 @@
-using Media.Domain;
+using Medias.Domain;
 
-namespace Media.Domain
+namespace Medias.Domain
 {
     public sealed class MediaReference
     {
-        public MediaReferenceId Id {get;private set;}
-        public MediaId MediaId{get;private set;}
-        public Media Media{get;private set;}
-        public bool EsSpoiler {get;private set;}
-        private MediaReference(){}
+        public MediaReferenceId Id { get; private set; }
+        public MediaId MediaId { get; private set; }
+        public Media Media { get; private set; }
+        public bool EsSpoiler { get; private set; }
+        private MediaReference() { }
         public MediaReference(MediaReferenceId id, MediaId mediaId, Media media, bool esSpoiler)
         {
             Id = id;

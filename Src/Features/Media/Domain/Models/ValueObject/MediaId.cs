@@ -1,7 +1,7 @@
-namespace Media.Domain
+namespace Medias.Domain
 {
 
-    public record class MediaId  
+    public record class MediaId
     {
         public Guid Value { get; private set; }
 
@@ -10,7 +10,8 @@ namespace Media.Domain
         {
             Value = id;
         }
-        static public MediaId Nuevo(){
+        static public MediaId Nuevo()
+        {
             return new MediaId(Guid.NewGuid());
         }
     }

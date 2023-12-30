@@ -13,8 +13,9 @@ namespace Hilos.Application
             _hiloManager = hiloManager;
         }
 
-        public Task<Result<List<Hilo>>> Execute(FiltrarPortadasDeHilosDto dto) {
-            return _hiloManager.GetPortadasDeHilos();
+        public Task<Result<List<Hilo>>> Execute(FiltrarPortadasDeHilosDto dto)
+        {
+            throw new Exception();
         }
 
     }

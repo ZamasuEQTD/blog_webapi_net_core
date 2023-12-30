@@ -1,6 +1,6 @@
 using Xabe.FFmpeg;
 
-namespace Media.Domain
+namespace Medias.Domain
 {
     public interface IVistaPreviaHelper
     {
@@ -23,9 +23,9 @@ namespace Media.Domain
             throw new NotImplementedException();
         }
 
-        public async  Task<string> GenerarVistaPreviaDesdeVideo(string path)
+        public async Task<string> GenerarVistaPreviaDesdeVideo(string path)
         {
-            var output = Path.Combine(_outputFolder, Path.GetFileName(path) + ".png");;
+            var output = Path.Combine(_outputFolder, Path.GetFileName(path) + ".png"); ;
             var file = await FFmpeg.Conversions.FromSnippet.Snapshot(path, output, TimeSpan.FromSeconds(0));
             await file.Start();
             return output;
