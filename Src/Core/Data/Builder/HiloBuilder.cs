@@ -15,7 +15,7 @@ namespace Data
             builder.Property(h => h.Descripcion).HasConversion(descripcion => descripcion.Value, value => DescripcionDeHilo.Create(value).Value!);
             builder.HasOne(h => h.Autor).WithMany().HasForeignKey(h => h.AutorId).IsRequired();
             builder.HasOne(h => h.Media).WithMany().HasForeignKey(h => h.MediaId).IsRequired();
-            // builder.HasOne(h => h.Encuesta).WithMany().HasForeignKey(h => h.EncuestaId);
+            builder.HasOne(h => h.Encuesta).WithMany().HasForeignKey(h => h.EncuestaId);
         }
     }
 }

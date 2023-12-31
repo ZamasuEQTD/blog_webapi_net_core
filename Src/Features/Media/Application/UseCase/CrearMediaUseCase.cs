@@ -7,6 +7,11 @@ namespace Medias.Application
     public class CrearMediaUseCase
     {
         public IMediaManager _mediaManager;
+
+        public CrearMediaUseCase(IMediaManager mediaManager)
+        {
+            _mediaManager = mediaManager;
+        }
         public async Task<Result<MediaReference>> Execute(ArchivoFisico archivo, ArchivoEsperado? archivoEsperado = ArchivoEsperado.Culquiera)
         {
             if (archivoEsperado != ArchivoEsperado.Culquiera)

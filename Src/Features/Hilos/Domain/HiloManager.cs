@@ -16,16 +16,20 @@ namespace Hilos.Domain
     {
         private readonly IHilosRepository _hilosRepository;
         private readonly IUserRepository _userRepository;
-        public HiloManager(IHilosRepository hilosRepository)
+        public HiloManager(IHilosRepository hilosRepository, IUserRepository userRepository)
         {
             _hilosRepository = hilosRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<Result<Hilo>> CrearHilo(CrearHiloForm form)
         {
             var userResult = await _userRepository.GetUser(form.User);
+
             Hilo nuevoHilo = new(HiloId.Nuevo(), userResult.Value, form.Media, form.Titulo, form.Descripcion, form.Encuesta);
+
             await _hilosRepository.Add(nuevoHilo);
+
             return Result<Hilo>.Success(nuevoHilo);
         }
 

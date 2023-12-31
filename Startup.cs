@@ -19,11 +19,19 @@ namespace WebApp
             // services.AddSignalR();
 
             // this.AddServices(services);
+            services.AddHttpContextAccessor();
+
+
+
             AddBearerTokenSupport(services);
+
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseNpgsql("host=127.0.0.1;port=5555;username=postgres;password=deathnote;database=blog_test");
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddAuthDependencies();
+            services.AddUserDependencies();
             services.AddEndpointsApiExplorer();
 
             services.AddControllers().AddJsonOptions(x =>

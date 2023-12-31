@@ -1,14 +1,15 @@
-using Shared.Common;
-
 namespace Encuestas.Domain
 {
-    public record  EncuestaId:ID
+    public record EncuestaId
     {
-        private EncuestaId(){}
-        public EncuestaId(Guid id):base(id){}
+        public Guid Value { get; private set; }
 
-        static public EncuestaId Nuevo() {
-            return new EncuestaId(Guid.NewGuid());
+        public EncuestaId() { }
+        public EncuestaId(Guid id)
+        {
+            Value = id;
         }
+
+
     }
 }

@@ -12,6 +12,7 @@ namespace Data
             builder.HasKey(h => h.Id);
             builder.Property(h => h.Id).HasConversion(id => id.Value, value => new InteraccionDeHiloId(value));
             builder.HasOne(i => i.Hilo).WithMany().HasForeignKey(i => i.HiloId).IsRequired();
+            builder.HasOne(i => i.User).WithMany().HasForeignKey(i => i.UserId);
             builder.Property(i => i.Favorito);
             builder.Property(i => i.Oculto);
             builder.Property(i => i.Siguiendo);

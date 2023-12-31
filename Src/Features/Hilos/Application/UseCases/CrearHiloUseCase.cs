@@ -12,8 +12,9 @@ namespace Hilos.Application
         private readonly CrearEncuestaUseCase _crearEncuestaUseCase;
         private readonly CrearMediaUseCase _crearMediaUseCase;
         private readonly IHiloManager _hiloManager;
-        public CrearHiloUseCase(IHiloManager hiloManager, CrearEncuestaUseCase crearEncuestaUseCase)
+        public CrearHiloUseCase(IHiloManager hiloManager, CrearEncuestaUseCase crearEncuestaUseCase, CrearMediaUseCase crearMediaUse)
         {
+            _crearMediaUseCase = crearMediaUse;
             _crearEncuestaUseCase = crearEncuestaUseCase;
             _hiloManager = hiloManager;
         }

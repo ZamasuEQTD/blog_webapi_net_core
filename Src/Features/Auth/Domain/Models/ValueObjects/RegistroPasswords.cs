@@ -19,7 +19,7 @@ namespace Auth.Domain
             {
                 return Result<RegistroPassword>.Failure(passwordResult.Error);
             }
-            if (!passwordResult.Value.Equals(passwordRep))
+            if (!(passwordResult.Value.Value == passwordRep))
             {
                 return Result<RegistroPassword>.Failure(new("Ambas contraseñas deben ser iguales"));
             }

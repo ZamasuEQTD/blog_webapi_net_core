@@ -11,7 +11,7 @@ namespace Users.Domain
 
         public string Value { get; }
 
-        public UserName () {}
+        public UserName() { }
         private UserName(string value)
         {
             this.Value = value;
@@ -28,6 +28,16 @@ namespace Users.Domain
                 Result<UserName>.Failure(new Failure("UserName.Invalido", "El nombre de usuario debe tener entre " + MinLenght.ToString() + " y " + MaxLenght.ToString()));
             }
             return Result<UserName>.Success(new UserName(userName));
+        }
+
+        public bool Equals(UserName other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            return Value.Equals(other.Value);
         }
     }
 }

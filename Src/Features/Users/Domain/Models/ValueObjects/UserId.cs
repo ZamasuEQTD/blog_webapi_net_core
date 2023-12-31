@@ -11,7 +11,6 @@ namespace Users.Domain
         }
         public UserId(Guid id) : base(id)
         {
-
         }
 
         static public UserId Nuevo()

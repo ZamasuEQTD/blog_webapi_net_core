@@ -8,8 +8,8 @@ namespace Data
     {
         public void Configure(EntityTypeBuilder<Encuesta> builder)
         {
-            builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).HasConversion(id => id.Value, value => new EncuestaId(value));
+            builder.HasKey(e => e.Id);
             builder.HasMany(e => e.Opciones).WithOne().HasForeignKey(o => o.EncuestaId).IsRequired();
         }
     }
@@ -19,7 +19,19 @@ namespace Data
         {
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Id).HasConversion(id => id.Value, value => new EncuestaOpcionId(value));
-            builder.Property(o => o.Nombre).HasConversion(nombre => nombre.Value, value => NombreDeOpcion.Create(value).Value!);
+            builder.Property(o => o.Nombre).HasConversion(nombre => nombre.Value, value => NombreDeOpcion.Create(value).Value);
+            builder.Property(o => o.Votos).HasConversion(votos => votos.Value, value => VotosDeEncuesta.Create(value).Value);
+        }
+    }
+    public class VotacionDeEncuestaConfiguration : IEntityTypeConfiguration<VotacionDeEncuesta>
+    {
+        public void Configure(EntityTypeBuilder<VotacionDeEncuesta> builder)
+        {
+            builder.HasKey(o => o.Id);
+            builder.Property(o => o.Id).HasConversion(id => id.Value, value => new VotacionDeEncuestaId(value));
+            builder.HasOne(o => o.Opcion).WithMany().HasForeignKey(o => o.OpcionId);
+            builder.HasOne(o => o.User).WithMany().HasForeignKey(o => o.UserId);
+
         }
     }
 }

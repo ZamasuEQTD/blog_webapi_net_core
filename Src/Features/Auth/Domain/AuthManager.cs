@@ -13,6 +13,12 @@ namespace Auth.Domain
     public class AuthManager : IAuthManager
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPasswordHasherHelper _passwordHasher;
+        public AuthManager(IUserRepository userRepository, IPasswordHasherHelper passwordHasher)
+        {
+            _passwordHasher = passwordHasher;
+            _userRepository = userRepository;
+        }
         public async Task<Result<User>> Login(LoginForm form)
         {
             var userResult = await _userRepository.GetUser(form.UserName);
@@ -31,7 +37,11 @@ namespace Auth.Domain
                 return Result<User>.Failure(new("Usuario Existente"));
             }
 
+            var nuevoUsuario = new User(UserId.Nuevo(), form.UserName, _passwordHasher.Hash(form.Password.Password), Rango.Usuario);
+            Console.Write(" \n\n\n\n Creando Usuariooooooooooooo \n\n\n\n");
+            await _userRepository.Add(nuevoUsuario);
             throw new NotImplementedException();
         }
+
     }
 }

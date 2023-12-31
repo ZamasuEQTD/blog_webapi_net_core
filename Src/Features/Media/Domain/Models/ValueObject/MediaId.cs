@@ -1,14 +1,13 @@
+using Shared.Common;
+
 namespace Medias.Domain
 {
 
-    public record class MediaId
+    public record class MediaId : ID
     {
-        public Guid Value { get; private set; }
-
         public MediaId() { }
-        public MediaId(Guid id)
+        public MediaId(Guid id) : base(id)
         {
-            Value = id;
         }
         static public MediaId Nuevo()
         {

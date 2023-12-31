@@ -21,7 +21,7 @@ namespace Data
             builder.HasKey(mr => mr.Id);
             builder.Property(mr => mr.Id).HasConversion(id => id.Value, value => new MediaReferenceId(value));
             builder.Property(mr => mr.EsSpoiler);
-            builder.HasOne(mr => mr.Media).WithMany().IsRequired();
+            builder.HasOne(mr => mr.Media).WithMany().HasForeignKey(mr => mr.MediaId).IsRequired();
 
         }
     }

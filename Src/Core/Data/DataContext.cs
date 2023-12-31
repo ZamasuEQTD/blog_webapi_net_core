@@ -4,10 +4,9 @@ using InteraccionesDeHilo.Domain;
 using Medias.Domain;
 using Microsoft.EntityFrameworkCore;
 using Users.Domain;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace Data
 {
-    class DataContext(DbContextOptions<DataContext> options) : IdentityDbContext(options)
+    public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {
         public DbSet<Hilo> Hilos => Set<Hilo>();
         public DbSet<User> Usuarios => Set<User>();
@@ -26,6 +25,7 @@ namespace Data
             modelBuilder.ApplyConfiguration(new MediaReferenceConfiguration());
             modelBuilder.ApplyConfiguration(new EncuestaConfiguration());
             modelBuilder.ApplyConfiguration(new EncuestaOpcionConfiguration());
+            modelBuilder.ApplyConfiguration(new VotacionDeEncuestaConfiguration());
         }
     }
 }
