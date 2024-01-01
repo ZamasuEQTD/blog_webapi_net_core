@@ -11,6 +11,9 @@ namespace Categorias.Application
             _categoriasManager = categoriasManager;
         }
 
-        public Task<List<Categoria>> Execute(){}
+        public Task<List<Categoria>> Execute(List<CrearCategoriaDto> categoriaDtos)
+        {
+            throw new Exception("");
+        }
     }
 }
