@@ -1,4 +1,6 @@
+using Hilos.Application;
 using Hilos.Domain;
+using Hilos.Infraestructure;
 
 namespace WebApp
 {
@@ -7,6 +9,9 @@ namespace WebApp
         static public void AddHilosDependencies(this IServiceCollection services)
         {
             services.AddScoped<IHiloManager, HiloManager>();
+            services.AddScoped<IHilosRepository, HilosRepository>();
+            services.AddScoped<CrearHiloUseCase>();
+        
         }
     }
 }

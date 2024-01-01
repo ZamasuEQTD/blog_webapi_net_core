@@ -22,5 +22,11 @@ namespace Medias.Domain
             Media = media;
             EsSpoiler = esSpoiler;
         }
+        public MediaReference(MediaReferenceId id, MediaId mediaId, bool esSpoiler)
+        {
+            Id = id;
+            MediaId = mediaId;
+            EsSpoiler = esSpoiler;
+        }
     }
 }

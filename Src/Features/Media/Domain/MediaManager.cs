@@ -17,7 +17,7 @@ namespace Medias.Domain
         private readonly IVistaPreviaHelper _vistaPreviaHelper;
         private readonly IMiniaturaHelper _miniaturaHelper;
         private readonly IHasherHelper _hasherHelper;
-        private readonly string _outputFolder;
+        private readonly string _mediaFolder;
 
         public MediaManager(
             IMediaRepository mediaRepository,
@@ -25,15 +25,16 @@ namespace Medias.Domain
             IVistaPreviaHelper vistaPreviaHelper,
             IMiniaturaHelper miniaturaHelper,
             IHasherHelper hasherHelper,
-            string outputFolder
+            string mediaFolder
         )
         {
+            Console.Write("       MediaFolder        " + mediaFolder);
             _mediaRepository = mediaRepository;
             _archivosHelper = archivosHelper;
             _vistaPreviaHelper = vistaPreviaHelper;
             _miniaturaHelper = miniaturaHelper;
             _hasherHelper = hasherHelper;
-            _outputFolder = outputFolder;
+            _mediaFolder = mediaFolder;
         }
         public async Task<Result<MediaReference>> CrearReferenciaHaciaArchivo(ArchivoFisico archivo)
         {
@@ -45,33 +46,34 @@ namespace Medias.Domain
 
             if (archivoExistente.IsSuccess)
             {
-                var referenciaNueva = new MediaReference(MediaReferenceId.Nuevo(), archivoExistente.Value.Id, archivoExistente.Value, archivo.EsSpoiler);
+                var referenciaNueva = new MediaReference(MediaReferenceId.Nuevo(), archivoExistente.Value.Id,archivo.EsSpoiler);
                 // await _mediaRepository.CrearMediaReference(referenciaNueva);
                 return Result<MediaReference>.Success(referenciaNueva);
 
             }
-            var absolutePath = await _archivosHelper.GuardarArchivoStream(stream, _outputFolder, hash + archivo.Extension);
+            var absolutePath = await _archivosHelper.GuardarArchivoStream(stream, _mediaFolder, hash + archivo.Extension);
 
-            if (archivo.SoportaVistaPrevia())
-            {
-                absolutePath = await _vistaPreviaHelper.GenerarVistaPreviaDesdeImagen(absolutePath);
-            }
+            // if (archivo.SoportaVistaPrevia())
+            // {
+            //     absolutePath = await _vistaPreviaHelper.GenerarVistaPreviaDesdeImagen(absolutePath);
+            // }
 
-            await _miniaturaHelper.CrearMiniatura(absolutePath, hash);
+            // await _miniaturaHelper.CrearMiniatura(absolutePath, hash);
 
             var archivoNuevo = new MediaReference(MediaReferenceId.Nuevo(), new Media(MediaId.Nuevo(), hash, hash + archivo.Extension), archivo.EsSpoiler);
-
-            // await _mediaRepository.CrearMediaReference(archivoNuevo);
 
             return Result<MediaReference>.Success(archivoNuevo);
         }
 
+
+        
         public Task<Result<MediaReference>> CrearReferenciaHaciaArchivo(ArchivoLink link)
         {
 
             throw new NotImplementedException();
         }
 
-
+        private async Task CrearImagenesDeArchivo(string absolutePath) {
+        }
     }
 }

@@ -32,6 +32,10 @@ namespace WebApp
 
             services.AddAuthDependencies();
             services.AddUserDependencies();
+            services.AddHilosDependencies();
+            services.AddMediaDependecies();
+            services.AddEncuestasDependencies();
+
             services.AddEndpointsApiExplorer();
 
             services.AddControllers().AddJsonOptions(x =>

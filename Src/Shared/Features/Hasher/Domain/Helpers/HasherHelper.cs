@@ -7,10 +7,9 @@ namespace Shared.Hasher
         public Task<string> HashStreamAsync(Stream stream);
     }
 
-    public class HasherService : IHasherHelper
+    public class HasherHelper : IHasherHelper
     {
-        private readonly MD5 MD5 = MD5.Create();
-
+        static private readonly MD5 MD5 = MD5.Create();
         public async Task<string> HashStreamAsync(Stream stream)
         {
             var hash = await MD5.ComputeHashAsync(stream);

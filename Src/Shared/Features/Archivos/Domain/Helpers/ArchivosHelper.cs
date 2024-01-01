@@ -13,6 +13,7 @@ namespace Shared.Archivos.Domain
 
         public async Task<string> GuardarArchivoStream(Stream stream, string outputFolder, string fileName)
         {
+            stream.Seek(0,SeekOrigin.Begin);
             // Combina la ruta de la subcarpeta y el nombre del archivo
             string filePath = Path.Combine(outputFolder, fileName);
             // Crea un stream a partir de la ruta del archivo
@@ -25,6 +26,7 @@ namespace Shared.Archivos.Domain
             // Retorna la ruta del archivo
             return filePath;
         }
+
     }
 
      
