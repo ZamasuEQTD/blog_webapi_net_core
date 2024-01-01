@@ -13,6 +13,11 @@ namespace Medias.Domain
     {
 
         public string _outputFolder;
+
+        public VistaPreviaHelper(string outputFolder)
+        {
+            _outputFolder = outputFolder;
+        }
         public Task<string> GenerarDesdeYoutubeVideoId(string id)
         {
             throw new NotImplementedException();

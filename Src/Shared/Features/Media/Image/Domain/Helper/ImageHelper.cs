@@ -6,7 +6,7 @@ namespace Shared.Imagess
 {
     public interface IImagesHelper
     {
-        public Task<Image> ResizeImage(Stream Stream, Size size, ResizeMode? ResizeMode = null, AnchorPositionMode? PositionMode = null);
+        public Task<Image> ResizeImage(Stream stream, Size size, ResizeMode? ResizeMode = null, AnchorPositionMode? PositionMode = null);
         public Task<string> GuardarImagen(Image imagen, string OutputFolder, string Nombre);
         public Task<string> GuardarImageStream(Stream imagen, string OutputFolder, string Nombre);
         public Task<Stream> GetStreamImageFromUrl(string url);
@@ -20,19 +20,30 @@ namespace Shared.Imagess
             throw new NotImplementedException();
         }
 
-        public Task<string> GuardarImagen(Image imagen, string OutputFolder, string Nombre)
+        public async Task<string> GuardarImagen(Image imagen, string outputFolder, string nombre)
         {
-            throw new NotImplementedException();
+            var output = outputFolder + "/" + nombre + ".png";
+            await imagen.SaveAsync(output);
+            return output;
         }
 
-        public Task<string> GuardarImageStream(Stream imagen, string OutputFolder, string Nombre)
+        public async Task<string> GuardarImageStream(Stream imagen, string outputFolder, string nombre)
         {
-            throw new NotImplementedException();
+            Image image = await Image.LoadAsync(imagen);
+
+            return await GuardarImagen(image, outputFolder, nombre);
         }
 
-        public Task<Image> ResizeImage(Stream Stream, Size size, ResizeMode? ResizeMode = null, AnchorPositionMode? PositionMode = null)
+        public async Task<Image> ResizeImage(Stream stream, Size size, ResizeMode? resizeMode = null, AnchorPositionMode? positionMode = null)
         {
-            throw new NotImplementedException();
+            var original = await Image.LoadAsync(stream);
+            original = original.Clone(e => e.Resize(new ResizeOptions()
+            {
+                Mode = resizeMode ?? ResizeMode.Max,
+                Position = positionMode ?? AnchorPositionMode.Center,
+                Size = size
+            }));
+            return original;
         }
     }
 }

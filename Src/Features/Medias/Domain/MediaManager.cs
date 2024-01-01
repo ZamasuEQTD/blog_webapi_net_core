@@ -46,19 +46,19 @@ namespace Medias.Domain
 
             if (archivoExistente.IsSuccess)
             {
-                var referenciaNueva = new MediaReference(MediaReferenceId.Nuevo(), archivoExistente.Value.Id,archivo.EsSpoiler);
+                var referenciaNueva = new MediaReference(MediaReferenceId.Nuevo(), archivoExistente.Value.Id, archivo.EsSpoiler);
                 // await _mediaRepository.CrearMediaReference(referenciaNueva);
                 return Result<MediaReference>.Success(referenciaNueva);
 
             }
             var absolutePath = await _archivosHelper.GuardarArchivoStream(stream, _mediaFolder, hash + archivo.Extension);
 
-            // if (archivo.SoportaVistaPrevia())
-            // {
-            //     absolutePath = await _vistaPreviaHelper.GenerarVistaPreviaDesdeImagen(absolutePath);
-            // }
+            if (archivo.SoportaVistaPrevia())
+            {
+                absolutePath = await _vistaPreviaHelper.GenerarVistaPreviaDesdeVideo(absolutePath);
+            }
 
-            // await _miniaturaHelper.CrearMiniatura(absolutePath, hash);
+            await _miniaturaHelper.CrearMiniatura(absolutePath);
 
             var archivoNuevo = new MediaReference(MediaReferenceId.Nuevo(), new Media(MediaId.Nuevo(), hash, hash + archivo.Extension), archivo.EsSpoiler);
 
@@ -66,14 +66,15 @@ namespace Medias.Domain
         }
 
 
-        
+
         public Task<Result<MediaReference>> CrearReferenciaHaciaArchivo(ArchivoLink link)
         {
 
             throw new NotImplementedException();
         }
 
-        private async Task CrearImagenesDeArchivo(string absolutePath) {
+        private async Task CrearImagenesDeArchivo(string absolutePath)
+        {
         }
     }
 }

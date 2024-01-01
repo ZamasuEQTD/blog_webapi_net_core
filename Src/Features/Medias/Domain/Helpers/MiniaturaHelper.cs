@@ -12,9 +12,20 @@ namespace Medias.Domain
     }
     class MiniaturaHelper : IMiniaturaHelper
     {
-        private readonly string _outputFolder;
         private readonly IArchivosHelper _archivosHelper;
         private readonly IImagesHelper _imagesHelper;
+        private readonly string _outputFolder;
+
+        public MiniaturaHelper(
+            IArchivosHelper archivosHelper,
+            IImagesHelper imagesHelper,
+            string outputFolder
+            )
+        {
+            _archivosHelper = archivosHelper;
+            _imagesHelper = imagesHelper;
+            _outputFolder = outputFolder;
+        }
         public async Task<string> CrearMiniatura(string path, string? nombre = null)
         {
             var imagenStream = await _archivosHelper.CrearStreamFromFile(path);
