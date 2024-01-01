@@ -2,6 +2,7 @@ using Core.Failures;
 using Core.Result;
 using Data;
 using Hilos.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hilos.Infraestructure
 {
@@ -29,9 +30,15 @@ namespace Hilos.Infraestructure
             throw new NotImplementedException();
         }
 
-        public Task<Result<Hilo>> GetHilo(HiloId id)
+        public async Task<Result<Hilo>> GetHilo(HiloId id)
         {
-            throw new NotImplementedException();
+            Hilo? hilo =await  _context.Hilos.Include(h=> h.Media).ThenInclude(m => m.Media).Include(h=> h.Encuesta).ThenInclude(e=> e.Opciones).FirstOrDefaultAsync(h=> h.Id.Equals(id));
+
+            if(hilo is null) {
+                return Result<Hilo>.Failure(new Failure("No encontrado"));
+            }
+            return Result<Hilo>.Success(hilo);
+
         }
 
         public Task<Result<Hilo>> GetPortadaDeHilo(HiloId id)

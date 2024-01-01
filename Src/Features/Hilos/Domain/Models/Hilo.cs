@@ -1,3 +1,4 @@
+using Categorias.Domain;
 using Encuestas.Domain;
 using Medias.Domain;
 using Users.Domain;
@@ -9,6 +10,8 @@ namespace Hilos.Domain
         public HiloId Id { get; private set; }
         public UserId AutorId { get; private set; }
         public User Autor { get; private set; }
+        public SubcategoriaId CategoriaId {get; private set;}
+        public Subcategoria Categoria {get; private set;}
         public MediaReferenceId MediaId { get; private set; }
         public MediaReference Media { get; private set; }
         public TituloDeHilo Titulo { get; private set; }

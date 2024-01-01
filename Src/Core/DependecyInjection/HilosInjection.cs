@@ -11,6 +11,10 @@ namespace WebApp
             services.AddScoped<IHiloManager, HiloManager>();
             services.AddScoped<IHilosRepository, HilosRepository>();
             services.AddScoped<CrearHiloUseCase>();
+            services.AddScoped<GetHiloUseCase>();
+            services.AddScoped<GetPortadasDeHilosUseCase>();
+
+
         
         }
     }

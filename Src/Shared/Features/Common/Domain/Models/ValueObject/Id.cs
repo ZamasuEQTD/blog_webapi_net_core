@@ -11,17 +11,10 @@ namespace Shared.Common
         {
             Value = id;
         }
-        public virtual bool Equals(ID other)
-        {
-            if (other is null)
-            {
-                return false;
-            }
-
-            return Value.Equals(other.Value);
+        
+        public virtual bool Equals(ID other) {
+            return other is not null &&other.Value == this.Value;
         }
-
-
     }
 
 
