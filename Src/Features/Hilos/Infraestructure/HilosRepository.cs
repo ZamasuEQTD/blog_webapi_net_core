@@ -3,6 +3,7 @@ using Core.Result;
 using Data;
 using Hilos.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Hilos.Infraestructure
 {
@@ -32,9 +33,10 @@ namespace Hilos.Infraestructure
 
         public async Task<Result<Hilo>> GetHilo(HiloId id)
         {
-            Hilo? hilo =await  _context.Hilos.Include(h=> h.Media).ThenInclude(m => m.Media).Include(h=> h.Encuesta).ThenInclude(e=> e.Opciones).FirstOrDefaultAsync(h=> h.Id.Equals(id));
+            Hilo? hilo = await _context.Hilos.Include(h => h.Subcategoria).Include(h => h.Media).ThenInclude(m => m.Media).Include(h => h.Encuesta).ThenInclude(e => e.Opciones).FirstOrDefaultAsync(h => h.Id.Equals(id));
 
-            if(hilo is null) {
+            if (hilo is null)
+            {
                 return Result<Hilo>.Failure(new Failure("No encontrado"));
             }
             return Result<Hilo>.Success(hilo);
@@ -46,9 +48,21 @@ namespace Hilos.Infraestructure
             throw new NotImplementedException();
         }
 
-        public Task<Result<List<Hilo>>> GetPortadasDeHilos(GetHilosFilterDto dto)
+        public async Task<Result<List<Hilo>>> GetPortadasDeHilos(GetHilosFilterDto dto)
         {
-            throw new NotImplementedException();
+            IQueryable<Hilo> hilosQuery = _context.Hilos;
+
+            if (!dto.CategoriasOcultas.IsNullOrEmpty())
+            {
+                hilosQuery = hilosQuery.Where(h => !dto.CategoriasOcultas.Contains(h.SubcategoriaId));
+            }
+
+            if (!dto.HilosParaOcultar.IsNullOrEmpty())
+            {
+                hilosQuery = hilosQuery.Where(h => dto.HilosParaOcultar.Contains(h.Id));
+            }
+            hilosQuery = hilosQuery.PorPagina(dto.Pagina.Value);
+            return Result<List<Hilo>>.Success(await hilosQuery.ToListAsync());
         }
     }
 }

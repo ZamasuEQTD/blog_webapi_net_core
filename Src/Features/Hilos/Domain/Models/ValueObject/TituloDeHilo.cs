@@ -5,11 +5,11 @@ namespace Hilos.Domain
     public record class TituloDeHilo
     {
 
-        private const int MinLenght = 8;
-        private const int MaxLenght = 150;
-        public string Value { get; }
+        public const int MinLenght = 8;
+        public const int MaxLenght = 150;
+        public string Value { get; private set; }
 
-        private TituloDeHilo(){}
+        private TituloDeHilo() { }
         private TituloDeHilo(string titulo)
         {
             Value = titulo;

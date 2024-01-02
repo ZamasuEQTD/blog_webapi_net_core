@@ -1,3 +1,4 @@
+using Categorias.Domain;
 using Shared.Common.Domain;
 using Users.Domain;
 
@@ -6,27 +7,24 @@ namespace Hilos.Domain
     public record GetHilosFilterDto
     {
         public Pagina Pagina { get; } = Pagina.Create(0).Value;
-        public bool IgnorarEliminados { get; } = false;
-        public List<string>? HilosParaOcultar { get; } 
-        public List<string>? CategoriasOcultas { get; }
-        public string? Categoria { get; }
-        public string? Titulo { get; }
+        public List<HiloId> HilosParaOcultar { get; } = new();
+        public List<SubcategoriaId> CategoriasOcultas { get; } = new();
+        public SubcategoriaId? Categoria { get; }
+        public TituloDeHilo? Titulo { get; }
 
         public GetHilosFilterDto(
             Pagina pagina,
-            bool ignorarEliminados,
-            List<string>? hilosParaOcultar,
-            List<string>? categoriasOcultas,
-            string? categoria,
-            string? titulo 
+            List<HiloId>? hilosParaOcultar,
+            List<SubcategoriaId>? categoriasOcultas,
+            SubcategoriaId? categoria = null,
+            TituloDeHilo? titulo = null
         )
         {
             Pagina = pagina;
-            IgnorarEliminados = ignorarEliminados;
-            HilosParaOcultar =  hilosParaOcultar;
+            HilosParaOcultar = hilosParaOcultar;
             CategoriasOcultas = categoriasOcultas;
             Categoria = categoria;
-            Titulo  = titulo;
+            Titulo = titulo;
         }
     }
 }

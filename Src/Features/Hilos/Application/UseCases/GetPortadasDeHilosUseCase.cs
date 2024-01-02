@@ -15,7 +15,7 @@ namespace Hilos.Application
 
         public Task<Result<List<Hilo>>> Execute(FiltrarPortadasDeHilosDto dto)
         {
-            throw new Exception();
+            return _hiloManager.GetPortadasDeHilos(new GetHilosFilterDto(Pagina.Create(dto.Pagina).Value, new(), new()));
         }
 
     }

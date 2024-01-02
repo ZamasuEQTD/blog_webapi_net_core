@@ -4,9 +4,10 @@ namespace Categorias.Application
 {
     public class CrearSubcategoriaDto
     {
-        public string NombreDeSubcategoria {get;  set;}
-        public bool EsNSFW {get; set;}
+        public string Nombre { get; set; }
+        public string NombreCorto { get; set; }
+        public bool EsNSFW { get; set; }
 
-         
+
     }
 }

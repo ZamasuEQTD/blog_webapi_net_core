@@ -31,7 +31,8 @@ namespace Data
             modelBuilder.ApplyConfiguration(new VotacionDeEncuestaConfiguration());
             modelBuilder.ApplyConfiguration(new CategoriaBuilder());
             modelBuilder.ApplyConfiguration(new SubcategoriaBuilder());
-
         }
     }
+
+
 }

@@ -2,7 +2,8 @@ using Core.Result;
 
 namespace Categorias.Domain
 {
-    public interface ICategoriasManager {
+    public interface ICategoriasManager
+    {
         public Task<Result<List<Categoria>>> GetCategorias();
         public Task<Result<Subcategoria>> GetSubcategoria(SubcategoriaId id);
         public Task<Result<List<Categoria>>> CrearCategorias(List<CrearCategoriaForm> crearCategoriaForms);
@@ -13,19 +14,19 @@ namespace Categorias.Domain
         private readonly ICategoriasRepository _categoriasRepository;
         public CategoriasManager(ICategoriasRepository categoriasRepository)
         {
-         _categoriasRepository = categoriasRepository;   
+            _categoriasRepository = categoriasRepository;
         }
 
-        public async  Task<Result<List<Categoria>>> CrearCategorias(List<CrearCategoriaForm> crearCategoriaForms)
+        public async Task<Result<List<Categoria>>> CrearCategorias(List<CrearCategoriaForm> crearCategoriaForms)
         {
             var categoriaId = CategoriaId.Nuevo();
             List<Categoria> categoriasNuevas = new();
             foreach (var form in crearCategoriaForms)
             {
-                List<Subcategoria> subcategorias = CrearSubcategorias(form.Subcategorias,categoriaId );
-                
-                Categoria categoria = new Categoria(categoriaId,form.Nombre,subcategorias);
-            
+                List<Subcategoria> subcategorias = CrearSubcategorias(form.Subcategorias, categoriaId);
+
+                Categoria categoria = new Categoria(categoriaId, form.Nombre, subcategorias);
+
                 categoriasNuevas.Add(categoria);
             }
             await _categoriasRepository.Add(categoriasNuevas);
@@ -43,11 +44,12 @@ namespace Categorias.Domain
         }
 
 
-        private List<Subcategoria> CrearSubcategorias(List<CrearSubcategoriaForm> forms,CategoriaId categoriaId){
+        private List<Subcategoria> CrearSubcategorias(List<CrearSubcategoriaForm> forms, CategoriaId categoriaId)
+        {
             List<Subcategoria> subcategorias = new();
             foreach (var form in forms)
             {
-                subcategorias.Add(new(SubcategoriaId.Nuevo(),categoriaId, form.Nombre,form.EsNSFW));
+                subcategorias.Add(new(SubcategoriaId.Nuevo(), categoriaId, form.Nombre, form.NombreCorto, form.EsNSFW));
             }
             return subcategorias;
         }

@@ -1,3 +1,4 @@
+using Categorias.Domain;
 using Core.Failures;
 using Core.Result;
 using Encuestas.Application;
@@ -44,7 +45,7 @@ namespace Hilos.Application
                 encuestaResult = await _crearEncuestaUseCase.Execute(new CrearEncuestaDto(dto.Encuesta));
             }
             var archivo = await _crearMediaUseCase.Execute(IFormMediaFile.Create(dto.PortadaFile, false));
-            var form = new CrearHiloForm(new(Guid.Parse(dto.Usuario)), tituloResult.Value, descripcionResult.Value, archivo.Value, encuestaResult!.Value);
+            var form = new CrearHiloForm(new(Guid.Parse(dto.Usuario)), tituloResult.Value, descripcionResult.Value, archivo.Value, new SubcategoriaId(Guid.Parse(dto.Categoria)), new(dto.DadosActivado, dto.IdUnicoActivado), encuestaResult!.Value);
             return Result<CrearHiloForm>.Success(form);
         }
     }

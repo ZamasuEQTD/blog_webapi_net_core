@@ -26,7 +26,7 @@ namespace Hilos.Domain
         {
             var userResult = await _userRepository.GetUser(form.User);
 
-            Hilo nuevoHilo = new(HiloId.Nuevo(), userResult.Value, form.Media, form.Titulo, form.Descripcion, form.Encuesta);
+            Hilo nuevoHilo = new(HiloId.Nuevo(), form.SubcategoriaId, userResult.Value, form.Media, form.Titulo, form.Descripcion, form.Banderas, form.Encuesta);
 
             await _hilosRepository.Add(nuevoHilo);
 
@@ -43,5 +43,7 @@ namespace Hilos.Domain
 
             throw new NotImplementedException();
         }
+
+
     }
 }

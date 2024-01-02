@@ -4,10 +4,10 @@ namespace Hilos.Domain
 {
     public class DescripcionDeHilo
     {
-         private const int MaxLenght = 150;
+        private const int MaxLenght = 150;
         private const int MinLenght = 10;
-        public string Value { get; }
-        private DescripcionDeHilo (){}
+        public string Value { get; private set; }
+        private DescripcionDeHilo() { }
         private DescripcionDeHilo(string Descripcion)
         {
             Value = Descripcion;
@@ -27,6 +27,6 @@ namespace Hilos.Domain
             }
             return Result<DescripcionDeHilo>.Success(new DescripcionDeHilo(descripcion));
         }
-        
+
     }
 }
