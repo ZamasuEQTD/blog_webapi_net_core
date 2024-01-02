@@ -1,3 +1,4 @@
+using Categorias.Domain;
 using Encuestas.Domain;
 using Hilos.Domain;
 using InteraccionesDeHilo.Domain;
@@ -14,6 +15,8 @@ namespace Data
         public DbSet<EncuestaOpcion> OpcionesDeEncuestas => Set<EncuestaOpcion>();
         public DbSet<MediaReference> MediaReferences => Set<MediaReference>();
         public DbSet<Media> Medias => Set<Media>();
+        public DbSet<Categoria> Categorias => Set<Categoria>();
+        public DbSet<Subcategoria> Subcategorias => Set<Subcategoria>();
         public DbSet<InteraccionDeHilo> InteraccionDeHilos => Set<InteraccionDeHilo>();
         public DbSet<VotacionDeEncuesta> VotosDeEncuesta => Set<VotacionDeEncuesta>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,6 +29,9 @@ namespace Data
             modelBuilder.ApplyConfiguration(new EncuestaConfiguration());
             modelBuilder.ApplyConfiguration(new EncuestaOpcionConfiguration());
             modelBuilder.ApplyConfiguration(new VotacionDeEncuestaConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoriaBuilder());
+            modelBuilder.ApplyConfiguration(new SubcategoriaBuilder());
+
         }
     }
 }

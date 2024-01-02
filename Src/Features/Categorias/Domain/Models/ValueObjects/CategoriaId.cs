@@ -6,5 +6,9 @@ namespace Categorias.Domain
     {
         public CategoriaId(Guid value):base(value)
         {}
+
+        static public CategoriaId Nuevo(){
+            return new CategoriaId(Guid.NewGuid());
+        }
     }
 }

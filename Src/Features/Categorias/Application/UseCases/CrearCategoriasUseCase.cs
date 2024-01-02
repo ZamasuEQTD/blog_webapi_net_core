@@ -1,4 +1,5 @@
 using Categorias.Domain;
+using Core.Result;
 
 namespace Categorias.Application
 {
@@ -11,9 +12,42 @@ namespace Categorias.Application
             _categoriasManager = categoriasManager;
         }
 
-        public Task<List<Categoria>> Execute(List<CrearCategoriaDto> categoriaDtos)
-        {
-            throw new Exception("");
+        public async  Task<Result<List<Categoria>>> Execute(List<CrearCategoriaDto> dtos){
+            List<CrearCategoriaForm> forms = new();
+
+            foreach (var dto in dtos)
+            {
+               var form =  CrearForm(dto);
+               forms.Add(form.Value);
+            }
+
+            return await  _categoriasManager.CrearCategorias(forms);
+        }
+
+        private Result<CrearCategoriaForm> CrearForm(CrearCategoriaDto dto){
+            var nombreDeCategoriaResult = NombreDeCategoria.Create(dto.NombreDeCategoria);
+            var subcategoriasFormsResult = CrearSubcategoriasForms(dto.SubcategoriasDtos);
+            return  Result<CrearCategoriaForm>.Success(new(nombreDeCategoriaResult.Value,subcategoriasFormsResult.Value));
+        }
+
+
+        private Result<List<CrearSubcategoriaForm>> CrearSubcategoriasForms(List<CrearSubcategoriaDto> dtos){
+            List<CrearSubcategoriaForm> forms = new();
+
+            foreach (var dto in dtos)
+            {
+                forms.Add(CrearForm(dto).Value);
+            }
+            return Result<List<CrearSubcategoriaForm>>.Success(forms);
+        }
+
+        private Result<CrearSubcategoriaForm>CrearForm(CrearSubcategoriaDto dto){
+            
+            var formResult = NombreDeCategoria.Create(dto.NombreDeSubcategoria);
+            var form = new CrearSubcategoriaForm(formResult.Value,dto.EsNSFW);
+            
+            
+            return Result<CrearSubcategoriaForm>.Success(form);
         }
     }
 }

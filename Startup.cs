@@ -35,6 +35,9 @@ namespace WebApp
             services.AddHilosDependencies();
             services.AddMediaDependecies();
             services.AddEncuestasDependencies();
+            services.AddCategoriasDependencies();
+
+            services.AddAutoMapper(typeof(Program).Assembly);
 
             services.AddEndpointsApiExplorer();
 
