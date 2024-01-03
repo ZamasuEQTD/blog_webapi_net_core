@@ -14,16 +14,13 @@ namespace Auth.Application
 
         public async Task Execute(LoginDto dto)
         {
-            Console.Write("\n\n\n probando \n\n\n");
 
             var formResult = CrearForm(dto);
-            Console.Write("\n\n\n probandoFormCreado \n\n\n");
 
             if (formResult.IsFailure)
             {
                 throw new Exception(formResult.Error.Code);
             }
-            Console.Write("\n\n\n isFailure" + formResult.IsFailure);
             await _authManager.Login(formResult.Value);
         }
         private Result<LoginForm> CrearForm(LoginDto dto)

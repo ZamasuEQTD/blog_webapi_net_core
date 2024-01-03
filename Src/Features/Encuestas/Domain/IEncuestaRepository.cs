@@ -4,13 +4,17 @@ using Users.Domain;
 
 namespace Encuestas.Domain
 {
-    public interface IEncuestaRepository {
-        public Task<Failure> Add(VotacionDeEncuesta votacion);
-        public Task<Failure> Add(Encuesta encuesta);
-        public Task<Failure> Update(VotacionDeEncuesta votacion);
-        public Task<Failure> Update(Encuesta encuesta);
-        public Task<Failure> Update(EncuestaOpcion opcion);
-        public Task<Result<VotacionDeEncuesta>> GetVotacionDeUsuarioEnEncuesta(UserId userId, EncuestaId encuestaId);
-        public Task<Result<EncuestaOpcion>> GetEncuestaOpcion(EncuestaOpcionId id);
+    public interface IEncuestaRepository
+    {
+        public Task Add(VotacionDeEncuesta votacion);
+        public Task Add(Encuesta encuesta);
+        public Task Update(VotacionDeEncuesta votacion);
+        public Task Update(Encuesta encuesta);
+        public Task Update(EncuestaOpcion opcion);
+        public Task<VotacionDeEncuesta?> GetVotacionDeUsuarioEnEncuesta(UserId userId, EncuestaId encuestaId);
+        public Task<EncuestaOpcion?> GetEncuestaOpcion(EncuestaOpcionId id);
+        public Task<Encuesta?> GetEncuesta(EncuestaId id);
+        public Task<bool> UsuarioHaVotadoEncuesta(UserId userId, EncuestaId encuestaId);
+
     }
 }

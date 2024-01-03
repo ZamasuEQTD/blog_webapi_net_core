@@ -10,6 +10,7 @@ namespace Users.Domain
         private User() { }
         public User(UserId id, UserName userName, HashedPassword password, Rango rango)
         {
+            this.Id = id;
             this.UserName = userName;
             this.Password = password;
             this.Rango = rango;

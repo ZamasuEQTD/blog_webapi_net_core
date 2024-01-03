@@ -14,26 +14,32 @@ namespace Categorias.Infraestructure
         {
             _context = context;
         }
-        public async Task<Failure> Add(List<Categoria> categorias)
+        public async Task Add(List<Categoria> categorias)
         {
             _context.Categorias.AddRange(categorias);
-            await  _context.SaveChangesAsync();
-            return Failure.None;
+            await _context.SaveChangesAsync();
         }
 
-        public Task<Failure> Add(Categoria categoria)
+        public Task Add(Categoria categoria)
         {
             throw new NotImplementedException();
         }
 
-        public async  Task<Result<List<Categoria>>> GetCategorias()
+        public async Task<List<Categoria>> GetCategorias()
         {
-          return Result<List<Categoria>>.Success(await  _context.Categorias.Include(c=> c.Subcategorias).ToListAsync());
+            return await _context.Categorias.Include(c => c.Subcategorias).ToListAsync();
         }
 
-        public Task<Result<Subcategoria>> GetSubcategoria(SubcategoriaId id)
+        public async Task<Subcategoria?> GetSubcategoria(SubcategoriaId id)
         {
-            throw new NotImplementedException();
+            Subcategoria? subcategoria = await _context.Subcategorias.FirstOrDefaultAsync(s => s.Id.Equals(id));
+            return subcategoria;
+        }
+
+        public async Task<List<Subcategoria>> GetSubcategoriasNSFW()
+        {
+            List<Subcategoria> subcategoriasNSFW = await _context.Subcategorias.Where(s => s.EsNSFW).ToListAsync();
+            return subcategoriasNSFW;
         }
     }
 }

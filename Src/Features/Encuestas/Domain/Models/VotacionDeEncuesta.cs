@@ -7,7 +7,6 @@ namespace Encuestas.Domain
         public VotacionDeEncuestaId Id { get; private set; }
         public UserId UserId { get; private set; }
         public User User { get; private set; }
-
         public EncuestaOpcionId OpcionId { get; private set; }
         public EncuestaOpcion Opcion { get; private set; }
 

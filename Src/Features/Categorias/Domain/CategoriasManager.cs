@@ -33,14 +33,20 @@ namespace Categorias.Domain
             return Result<List<Categoria>>.Success(categoriasNuevas);
         }
 
-        public Task<Result<List<Categoria>>> GetCategorias()
+        public async Task<Result<List<Categoria>>> GetCategorias()
         {
-            return _categoriasRepository.GetCategorias();
+            List<Categoria> categorias = await _categoriasRepository.GetCategorias();
+            return Result<List<Categoria>>.Success(categorias);
         }
 
-        public Task<Result<Subcategoria>> GetSubcategoria(SubcategoriaId id)
+        public async Task<Result<Subcategoria>> GetSubcategoria(SubcategoriaId id)
         {
-            return _categoriasRepository.GetSubcategoria(id);
+            Subcategoria? subcategoria = await _categoriasRepository.GetSubcategoria(id);
+            if (subcategoria is null)
+            {
+                return Result<Subcategoria>.Failure(SubcategoriaFailures.NoEncontrado);
+            }
+            return Result<Subcategoria>.Success(subcategoria);
         }
 
 

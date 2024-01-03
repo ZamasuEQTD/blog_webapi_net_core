@@ -16,7 +16,7 @@ namespace Encuestas.Domain
         {
             _encuestaRepository = encuestaRepository;
         }
-        public Task<Result<Encuesta>> CrearEncuesta(CrearEncuestaForm form)
+        public async Task<Result<Encuesta>> CrearEncuesta(CrearEncuestaForm form)
         {
             EncuestaId encuestaId = new(Guid.NewGuid());
             List<EncuestaOpcion> opcions = [];
@@ -25,22 +25,23 @@ namespace Encuestas.Domain
                 opcions.Add(new EncuestaOpcion(EncuestaOpcionId.Nuevo(), encuestaId, nombreDeOpcion, VotosDeEncuesta.Create(0).Value));
             }
             Encuesta nuevaEncuesta = new Encuesta(encuestaId, opcions);
-            return Task.FromResult(Result<Encuesta>.Success(nuevaEncuesta));
+            return Result<Encuesta>.Success(nuevaEncuesta);
         }
 
         public async Task<Result<VotacionDeEncuesta>> VotarEnEncuesta(VotarEncuestaForm form)
         {
-            var opcionResult = await _encuestaRepository.GetEncuestaOpcion(form.OpcionId);
+            EncuestaOpcion? opcion = await _encuestaRepository.GetEncuestaOpcion(form.OpcionId);
 
-            EncuestaOpcion opcion = opcionResult.Value;
-            var votacionExistente = await _encuestaRepository.GetVotacionDeUsuarioEnEncuesta(form.UserId, opcionResult.Value.EncuestaId);
-
-            if (votacionExistente.IsSuccess)
+            if (opcion is null)
+            {
+                return Result<VotacionDeEncuesta>.Failure(new("OpcionInexistente"));
+            }
+            if (await _encuestaRepository.UsuarioHaVotadoEncuesta(form.UserId, opcion.EncuestaId))
             {
                 return Result<VotacionDeEncuesta>.Failure(new Failure("Yas votado!!!"));
             }
-
             VotacionDeEncuesta votacion = new(VotacionDeEncuestaId.Nuevo(), form.UserId, opcion.Id);
+
             await _encuestaRepository.Add(votacion);
 
             opcion.SumarVoto();

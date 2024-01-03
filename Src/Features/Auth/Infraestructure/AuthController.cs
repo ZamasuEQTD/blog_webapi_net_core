@@ -29,7 +29,6 @@ namespace blog_webapi_net_core.Src.Features.Auth.Infraestructure
         [HttpPost("registro")]
         public async Task<IActionResult> Registro([FromBody] RegistroDto dto)
         {
-            Console.Write("password: " + dto.Password);
             await _registroUseCase.Execute(dto);
             return Ok();
         }

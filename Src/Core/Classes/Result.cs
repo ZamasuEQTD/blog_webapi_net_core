@@ -2,7 +2,7 @@ using Core.Failures;
 
 namespace Core.Result
 {
-     public class Result<T>
+    public class Result<T>
     {
         public bool IsSuccess { get; }
         public bool IsFailure => !IsSuccess;
