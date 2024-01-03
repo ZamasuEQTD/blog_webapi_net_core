@@ -22,7 +22,6 @@ namespace blog_webapi_net_core.Src.Features.Auth.Infraestructure
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            Console.Write("password: " + dto.Password);
             await _loginUseCase.Execute(dto);
             return Ok();
         }

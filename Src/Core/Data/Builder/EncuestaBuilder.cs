@@ -19,8 +19,8 @@ namespace Data
         {
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Id).HasConversion(id => id.Value, value => new EncuestaOpcionId(value));
-            builder.Property(o => o.Nombre).HasConversion(nombre => nombre.Value, value => NombreDeOpcion.Create(value).Value);
-            builder.Property(o => o.Votos).HasConversion(votos => votos.Value, value => VotosDeEncuesta.Create(value).Value);
+            builder.ComplexProperty(o => o.Nombre);
+            builder.ComplexProperty(o => o.Votos);
         }
     }
     public class VotacionDeEncuestaConfiguration : IEntityTypeConfiguration<VotacionDeEncuesta>

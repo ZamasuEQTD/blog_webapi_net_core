@@ -61,7 +61,7 @@ namespace Hilos.Infraestructure
             {
                 hilosQuery = hilosQuery.Where(h => dto.HilosParaOcultar.Contains(h.Id));
             }
-            hilosQuery = hilosQuery.PorPagina(dto.Pagina.Value);
+            hilosQuery = hilosQuery.PorPagina(0).Include(h=>h.Media).ThenInclude(m=>m.Media).Include(h=> h.Subcategoria);
             return Result<List<Hilo>>.Success(await hilosQuery.ToListAsync());
         }
     }

@@ -9,6 +9,11 @@ namespace Categorias.Domain
 
         public string Value { get; private set; }
 
+        private  NombreCortoDeSubcategoria()
+        {
+            
+        }
+
         private NombreCortoDeSubcategoria(string value)
         {
             Value = value;

@@ -8,6 +8,11 @@ namespace Categorias.Domain
         public readonly static int MaxLenght = 12;
 
         public string Value { get; private set; }
+
+        private NombreDeCategoria()
+        {
+            
+        }
         private NombreDeCategoria(string nombre)
         {
             this.Value = nombre;

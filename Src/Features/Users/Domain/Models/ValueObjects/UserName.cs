@@ -9,9 +9,9 @@ namespace Users.Domain
         private const int MaxLenght = 20;
         private const int MinLenght = 8;
 
-        public string Value { get; }
+        public string Value { get;private set; }
 
-        public UserName() { }
+        private UserName() { }
         private UserName(string value)
         {
             this.Value = value;

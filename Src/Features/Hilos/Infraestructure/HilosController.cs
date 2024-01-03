@@ -10,13 +10,16 @@ namespace Hilos.Infraestructure
     {
         private readonly CrearHiloUseCase _crearHiloUseCase;
         private readonly GetHiloUseCase _getHiloUseCase;
+        private readonly GetPortadasDeHilosUseCase _getPortadasDeHilosUseCase;
         private readonly IMapper _mapper;
         public HilosController(
             IMapper mapper,
+            GetPortadasDeHilosUseCase getPortadasDeHilosUseCase,
             GetHiloUseCase getHiloUseCase,
             CrearHiloUseCase crearHiloUseCase)
         {
             _mapper = mapper;
+            _getPortadasDeHilosUseCase = getPortadasDeHilosUseCase;
             _getHiloUseCase = getHiloUseCase;
             _crearHiloUseCase = crearHiloUseCase;
         }
@@ -28,14 +31,20 @@ namespace Hilos.Infraestructure
         }
 
         [HttpGet(":id")]
-        public async Task<ActionResult<GetPortadaDeHiloResponse>> GetHilo(Guid id)
+        public async Task<ActionResult<GetHiloResponse>> GetHilo(Guid id)
         {
             var hilo = await this._getHiloUseCase.Execute(new GetHiloDto(id.ToString()));
 
-            var res = _mapper.Map<GetPortadaDeHiloResponse>(hilo.Value);
+            var res = _mapper.Map<GetHiloResponse>(hilo.Value);
             return Ok(res);
         }
 
-
+        [HttpGet("portadas")]
+        public async Task<ActionResult<List<GetPortadaDeHiloResponse>>> GetPortadasDeHilo([FromQuery] int pagina, [FromQuery] DateTime? bump   ){
+            var hilos = await _getPortadasDeHilosUseCase.Execute(new FiltrarPortadasDeHilosDto(pagina,new(),null,null,null,bump));
+            
+            var portadas  = _mapper.Map<List<GetPortadaDeHiloResponse>>(hilos.Value);
+            return portadas;            
+        }
     }
 }

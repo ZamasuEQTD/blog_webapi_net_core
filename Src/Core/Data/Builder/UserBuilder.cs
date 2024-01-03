@@ -11,8 +11,8 @@ namespace Data
         {
             builder.HasKey(u => u.Id);
             builder.Property(u => u.Id).HasConversion(id => id.Value, value => new UserId(value)).IsRequired().ValueGeneratedOnAdd();
-            builder.Property(u => u.UserName).HasConversion(nombre => nombre.Value, value => UserName.Create(value).Value!);
-            builder.Property(u => u.Password).HasConversion(Password => Password.Value, value => new HashedPassword(value));
+            builder.ComplexProperty(u => u.UserName);
+            builder.ComplexProperty(u => u.Password);
         }
     }
 }

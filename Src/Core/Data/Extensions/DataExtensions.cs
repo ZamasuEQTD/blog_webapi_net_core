@@ -6,7 +6,7 @@ namespace Data
     {
         static public IQueryable<T> PorPagina<T>(this IQueryable<T> query, int pagina, int? take = 15)
         {
-            return query.Skip(take ?? 0 * pagina).Take(10);
+            return query.Skip(0).Take(take?? 15);
         }
 
         static public IQueryable<T> OrdenarPorPrimeroCreado<T>(this IQueryable<T> query) where T : BaseModel

@@ -41,7 +41,7 @@ namespace Hilos.Domain
         public Task<Result<List<Hilo>>> GetPortadasDeHilos(GetHilosFilterDto dto)
         {
 
-            throw new NotImplementedException();
+            return _hilosRepository.GetPortadasDeHilos(dto);
         }
 
 

@@ -6,7 +6,7 @@ namespace Encuestas.Domain
     {
         private const int MinLength = 10;
         private const int MaxLength = 50;
-        public string Value { get; }
+        public string Value { get;private set; }
         private NombreDeOpcion() { }
         private NombreDeOpcion(string nombreDeOpcion)
         {
