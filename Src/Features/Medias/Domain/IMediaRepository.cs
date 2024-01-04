@@ -5,7 +5,7 @@ namespace Medias.Domain
 {
     public interface IMediaRepository
     {
-        public Task<Result<Media>> GetMediaByHash(string hash);
+        public Task<Media?> GetMediaByHash(string hash);
 
     }
 }

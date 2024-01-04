@@ -1,19 +1,25 @@
 using Core.Failures;
+using Hilos.Domain;
 using InteraccionesDeHilo.Domain;
+using Users.Domain;
 
 namespace InteraccionesDeHilo.Application
 {
     public class OcultarHiloUseCase
     {
-        private readonly IInteraccionesDeHiloService _interaccionesDeHiloService;
+        private readonly IInteraccionesDeHiloManager _interaccionesDeHiloManager;
 
-        public OcultarHiloUseCase(IInteraccionesDeHiloService interaccionesDeHiloService)
+        public OcultarHiloUseCase(IInteraccionesDeHiloManager  interaccionesDeHiloManager)
         {
-            _interaccionesDeHiloService = interaccionesDeHiloService;
+            _interaccionesDeHiloManager = interaccionesDeHiloManager;
         }
-
-        public async Task  Execute(CambiarInteraccionDeHiloDto dto) {
-            await  _interaccionesDeHiloService.OcultarHilo(dto);
+        public async Task Execute(CambiarInteraccionDeHiloDto dto)
+        {
+            await _interaccionesDeHiloManager.CambiarInteracciones(new CrearInteraccionDeHiloForm(){
+                HiloId = new HiloId(Guid.Parse(dto.HiloId)),
+                UserId = new UserId(Guid.Parse(dto.UserId)),
+                Ocultar = true
+            });
         }
     }
 }

@@ -1,16 +1,24 @@
+using Hilos.Domain;
+using InteraccionesDeHilo.Domain;
+using Users.Domain;
+
 namespace InteraccionesDeHilo.Application
 {
     public class SeguirHiloUseCase
     {
-        private readonly IInteraccionesDeHiloService _interaccionesDeHiloService;
+        private readonly IInteraccionesDeHiloManager _interaccionesDeHiloManager;
 
-        public SeguirHiloUseCase(IInteraccionesDeHiloService interaccionesDeHiloService)
+        public SeguirHiloUseCase(IInteraccionesDeHiloManager interaccionesDeHiloManager)
         {
-            _interaccionesDeHiloService = interaccionesDeHiloService;
+            _interaccionesDeHiloManager = interaccionesDeHiloManager;;
         }
         public async Task Execute(CambiarInteraccionDeHiloDto dto)
         {
-            await _interaccionesDeHiloService.PonerHiloEnFavorito(dto);
+            await _interaccionesDeHiloManager.CambiarInteracciones(new CrearInteraccionDeHiloForm(){
+                HiloId = new HiloId(Guid.Parse(dto.HiloId)),
+                UserId = new UserId(Guid.Parse(dto.UserId)),
+                Seguir = true
+            });
         }
     }
 }

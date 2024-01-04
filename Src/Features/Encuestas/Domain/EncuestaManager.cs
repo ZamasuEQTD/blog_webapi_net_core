@@ -40,6 +40,7 @@ namespace Encuestas.Domain
             {
                 return Result<VotacionDeEncuesta>.Failure(new Failure("Yas votado!!!"));
             }
+            
             VotacionDeEncuesta votacion = new(VotacionDeEncuestaId.Nuevo(), form.UserId, opcion.Id);
 
             await _encuestaRepository.Add(votacion);

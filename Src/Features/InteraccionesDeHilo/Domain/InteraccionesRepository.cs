@@ -9,11 +9,11 @@ namespace InteraccionesDeHilo.Domain
     public interface IInteraccionesDeHiloRepository
     {
         public Task<Failure> Add(InteraccionDeHilo interaccion);
-        public Task<Result<InteraccionDeHilo>> GetInteraccionDeHiloPorUsuario(UserId user, HiloId hilo);
-        public Task<Failure> Update(InteraccionDeHilo interaccion);
-        public Task<Result<List<UserId>>> GetSeguidoresDeHilos(HiloId hiloId);
-        public Task<Result<List<HiloId>>> GetHilosOcultosDeUsuario(UserId userId);
-        public Task<Result<List<HiloId>>> GetHilosFavoritosDeUsuario(UserId userId);
-        public Task<Result<List<HiloId>>> GetHilosSeguidosDeUsuario(UserId userId);
+        public Task<InteraccionDeHilo?> GetInteraccionDeHiloPorUsuario(UserId user, HiloId hilo);
+        public Task  Update(InteraccionDeHilo interaccion);
+        public Task<List<UserId>> GetSeguidoresDeHilos(HiloId hiloId);
+        public Task<List<HiloId>> GetHilosOcultosDeUsuario(UserId userId);
+        public Task<List<HiloId>> GetHilosFavoritosDeUsuario(UserId userId);
+        public Task<List<HiloId>> GetHilosSeguidosDeUsuario(UserId userId);
     }
 }

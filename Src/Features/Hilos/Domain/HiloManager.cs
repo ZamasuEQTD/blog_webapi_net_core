@@ -26,22 +26,21 @@ namespace Hilos.Domain
         {
             var userResult = await _userRepository.GetUser(form.User);
 
-            Hilo nuevoHilo = new(HiloId.Nuevo(), form.SubcategoriaId, userResult.Value, form.Media, form.Titulo, form.Descripcion, form.Banderas, form.Encuesta);
+            Hilo nuevoHilo = new(HiloId.Nuevo(), form.SubcategoriaId, userResult!, form.Media, form.Titulo, form.Descripcion, form.Banderas, form.Encuesta);
 
             await _hilosRepository.Add(nuevoHilo);
 
             return Result<Hilo>.Success(nuevoHilo);
         }
 
-        public Task<Result<Hilo>> GetHiloById(HiloId id, UserId? usuario = null)
+        public async Task<Result<Hilo>> GetHiloById(HiloId id, UserId? usuario = null)
         {
-            return _hilosRepository.GetHilo(id);
+            return Result<Hilo>.Success(await _hilosRepository.GetHilo(id));
         }
 
-        public Task<Result<List<Hilo>>> GetPortadasDeHilos(GetHilosFilterDto dto)
+        public async Task<Result<List<Hilo>>> GetPortadasDeHilos(GetHilosFilterDto dto)
         {
-
-            return _hilosRepository.GetPortadasDeHilos(dto);
+            return Result<List<Hilo>>.Success(await  _hilosRepository.GetPortadasDeHilos(dto));
         }
 
 

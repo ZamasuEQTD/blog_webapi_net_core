@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Categorias.Application;
+using Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Categorias.Infraestructure
@@ -16,8 +17,6 @@ namespace Categorias.Infraestructure
         private readonly CrearCategoriasUseCase _crearCategoriasUseCase;
         private readonly GetCategoriasUseCase _getCategoriasUseCase;
         private readonly IMapper _mapper;
-
-
         public CategoriasController(
             IMapper mapper,
             CrearCategoriasUseCase crearCategoriasUseCase,
@@ -29,11 +28,17 @@ namespace Categorias.Infraestructure
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetCategoriaDto>>>GetCategorias(){
-            var listaResult = await _getCategoriasUseCase.Execute();
+        public async Task<ActionResult<ApiResponse<List<GetCategoriaDto>>>>GetCategorias(){
+            ApiResponse<List<GetCategoriaDto>> response = new();
 
-            var categoriasResonse = _mapper.Map<List<GetCategoriaDto>>(listaResult.Value);
-            return Ok(categoriasResonse);
+            var listaResult = await _getCategoriasUseCase.Execute();
+            if(listaResult.IsFailure){ 
+                response.SetError(listaResult.Error.Descripcion?? listaResult.Error.Code);
+            } else { 
+                var categoriasResonse = _mapper.Map<List<GetCategoriaDto>>(listaResult.Value);
+                response.Body = categoriasResonse;
+            }
+            return Ok(response);
         }
 
         [HttpPost("crear-categorias")]

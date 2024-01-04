@@ -13,35 +13,24 @@ namespace Users.Infraestructure
         {
             _context = context;
         }
-        public async Task<Failure> Add(User user)
+        public async Task  Add(User user)
         {
             _context.Usuarios.Add(user);
             await _context.SaveChangesAsync();
-            return Failure.None;
         }
 
-        public async Task<Result<User>> GetUser(UserId userId)
+        public async Task< User? > GetUser(UserId userId)
         {
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Id.Equals(userId));
-            if (usuario is null)
-            {
-                return Result<User>.Failure(new(""));
-            }
-            return Result<User>.Success(usuario);
+            return usuario;
         }
 
-        public async Task<Result<User>> GetUser(UserName userName)
+        public async Task<User?> GetUser(UserName userName)
         {
-            Console.Write("\n \n \n GetUser \n \n \n");
 
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.UserName.Equals(userName));
-            Console.Write("\n \n \n GetUserTerminado \n \n \n");
 
-            if (usuario is null)
-            {
-                return Result<User>.Failure(new(""));
-            }
-            return Result<User>.Success(usuario);
+            return usuario;
         }
     }
 }

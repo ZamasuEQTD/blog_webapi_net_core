@@ -12,7 +12,6 @@ namespace Encuestas.Application
             _encuestaManager = encuestaManager;
         }
         public Task<Result<VotacionDeEncuesta>> Execute(VotarEnEncuestaDto dto) {
-
           return  _encuestaManager.VotarEnEncuesta(new(new EncuestaOpcionId(Guid.Parse(dto.OpcionId)),new UserId(Guid.Parse(dto.UserId))));
         }
     }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Core;
 using Hilos.Application;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,20 +32,36 @@ namespace Hilos.Infraestructure
         }
 
         [HttpGet(":id")]
-        public async Task<ActionResult<GetHiloResponse>> GetHilo(Guid id)
+        public async Task<ActionResult<ApiResponse<GetHiloResponse>>> GetHilo(Guid id)
         {
-            var hilo = await this._getHiloUseCase.Execute(new GetHiloDto(id.ToString()));
+            ApiResponse<GetHiloResponse> response = new();
+            var hiloResponse = await _getHiloUseCase.Execute(new GetHiloDto(id.ToString()));
+            
+            if(hiloResponse.IsFailure) {
+                response.SetError(hiloResponse.Error.Descripcion ?? hiloResponse.Error.Code);
+            }else {
+                var res = _mapper.Map<GetHiloResponse>(hiloResponse.Value);
+            
+                response.Body = res;
+            }
 
-            var res = _mapper.Map<GetHiloResponse>(hilo.Value);
-            return Ok(res);
+            return Ok(response);
         }
 
         [HttpGet("portadas")]
         public async Task<ActionResult<List<GetPortadaDeHiloResponse>>> GetPortadasDeHilo([FromQuery] int pagina, [FromQuery] DateTime? bump   ){
-            var hilos = await _getPortadasDeHilosUseCase.Execute(new FiltrarPortadasDeHilosDto(pagina,new(),null,null,null,bump));
+            ApiResponse<List<GetPortadaDeHiloResponse>> response = new();
             
-            var portadas  = _mapper.Map<List<GetPortadaDeHiloResponse>>(hilos.Value);
-            return portadas;            
+            var hilosResult = await _getPortadasDeHilosUseCase.Execute(new FiltrarPortadasDeHilosDto(pagina,new(),null,null,null,bump));
+
+            if(hilosResult.IsSuccess){
+                response.SetError(hilosResult.Error.Descripcion ?? hilosResult.Error.Code);
+            } else {
+                var portadas  = _mapper.Map<List<GetPortadaDeHiloResponse>>(hilosResult.Value);
+                response.Body = portadas;
+            }
+            
+            return Ok(response);            
         }
     }
 }

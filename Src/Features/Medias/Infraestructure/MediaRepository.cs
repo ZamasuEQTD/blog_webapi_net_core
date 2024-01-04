@@ -14,14 +14,12 @@ namespace Medias.Infraestructure
         {
             _context = context;
         }
-        public async Task<Result<Media>> GetMediaByHash(string hash)
+         
+
+        public  async Task<Media?> GetMediaByHash(string hash)
         {
             Media? media = await _context.Medias.FirstOrDefaultAsync(m => m.Hash == hash);
-            if (media is null)
-            {
-                return Result<Media>.Failure(new("No encontrado!"));
-            }
-            return Result<Media>.Success(media);
+            return media;
         }
     }
 }

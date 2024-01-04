@@ -19,14 +19,9 @@ namespace InteraccionesDeHilo.Domain
 
         public async Task<Failure> CambiarInteracciones(CrearInteraccionDeHiloForm form)
         {
-            var interaccionResult = await _interaccionesDeHiloRepository.GetInteraccionDeHiloPorUsuario(form.UserId, form.HiloId);
-            InteraccionDeHilo interaccion;
-            if (interaccionResult.IsSuccess)
-            {
-                interaccion = interaccionResult.Value;
-            }
-            else
-            {
+            InteraccionDeHilo? interaccion = await _interaccionesDeHiloRepository.GetInteraccionDeHiloPorUsuario(form.UserId, form.HiloId);
+             
+            if(interaccion is null) {
                 interaccion = new(InteraccionDeHiloId.Nuevo(), form.UserId, form.HiloId);
                 await _interaccionesDeHiloRepository.Add(interaccion);
             }

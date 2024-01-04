@@ -6,8 +6,8 @@ namespace Users.Domain
 {
     public interface IUserRepository
     {
-        public Task<Result<User>> GetUser(UserId userId);
-        public Task<Result<User>> GetUser(UserName userId);
-        public Task<Failure> Add(User user);
+        public Task<User?> GetUser(UserId userId);
+        public Task<User?> GetUser(UserName userId);
+        public Task Add(User user);
     }
 }

@@ -21,27 +21,27 @@ namespace Auth.Domain
         }
         public async Task<Result<User>> Login(LoginForm form)
         {
-            var userResult = await _userRepository.GetUser(form.UserName);
-            if (userResult.IsFailure)
+            User? user = await _userRepository.GetUser(form.UserName);
+            if (user is null || !_passwordHasher.Verify(user.Password, form.Password))
             {
-                return Result<User>.Failure(new("Usuario o Contraseña incorrecta"));
+                return Result<User>.Failure(AuthFailures.UsuarioPasswordIncorrecto);
             }
-            throw new NotImplementedException();
+            return Result<User>.Success(user);
         }
 
         public async Task<Result<User>> Registrar(RegistroForm form)
         {
-            var userResult = await _userRepository.GetUser(form.UserName);
-            if (userResult.IsSuccess)
+            User? user = await _userRepository.GetUser(form.UserName);
+            if (user is null)
             {
                 return Result<User>.Failure(new("Usuario Existente"));
             }
-
             var nuevoUsuario = new User(UserId.Nuevo(), form.UserName, _passwordHasher.Hash(form.Password.Password), Rango.Usuario);
-            Console.Write(" \n\n\n\n Creando Usuariooooooooooooo \n\n\n\n");
+            
             await _userRepository.Add(nuevoUsuario);
             throw new NotImplementedException();
         }
+
 
     }
 }

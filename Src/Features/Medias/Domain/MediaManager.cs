@@ -44,9 +44,9 @@ namespace Medias.Domain
 
             var archivoExistente = await _mediaRepository.GetMediaByHash(hash);
 
-            if (archivoExistente.IsSuccess)
+            if (archivoExistente is not null)
             {
-                var referenciaNueva = new MediaReference(MediaReferenceId.Nuevo(), archivoExistente.Value.Id, archivo.EsSpoiler);
+                var referenciaNueva = new MediaReference(MediaReferenceId.Nuevo(), archivoExistente.Id, archivo.EsSpoiler);
                 // await _mediaRepository.CrearMediaReference(referenciaNueva);
                 return Result<MediaReference>.Success(referenciaNueva);
 
